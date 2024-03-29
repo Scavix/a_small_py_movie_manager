@@ -152,7 +152,7 @@ while True:
     elif event == 'About...':
         sg.popup('Movie Archive\nVersion 1.0\nDeveloped by: Scavix')
 
-    elif event == 'Scan from Folder':
+    elif event == 'Scan and Append':
         folder = sg.popup_get_folder('Select a folder to scan for movies:')
         if folder:
             files = os.listdir(folder)
