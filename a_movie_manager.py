@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 import os
 import json
+import requests
 
 class Movie:
     def __init__(self, title):
@@ -17,7 +18,7 @@ class Movie:
 
 bar_menu = [
     ['File', ['New Archive', 'Open Archive', 'Save', 'Exit and Save', 'Exit']],
-    ['Tools', ['Scan and Append']],
+    ['Tools', ['Scan and Append', 'Generate Source', 'Generate Build Script']],
     ['Help', 'About...']
 ]
 
@@ -160,4 +161,27 @@ while True:
                 movies.append(Movie(file))
             window['-MOVIE LIST-'].update(values=[str(movie) for movie in movies])
 
+    elif event == 'Generate Source':
+        response = requests.get("https://raw.githubusercontent.com/Scavix/a_small_py_movie_manager/main/a_movie_manager.py")
+        if response.status_code == 200:
+            f = open("a_movie_manager.py", "w")
+            f.write(response.text)
+            f.close()
+            sg.popup("Done")
+        else:
+            sg.popup("Web site does not exist or is not reachable")
+
+    elif event == 'Generate Build Script':
+        response = requests.get("https://raw.githubusercontent.com/Scavix/a_small_py_movie_manager/main/a_movie_manager_build_script.bat")
+        if response.status_code == 200:
+            f = open("a_movie_manager_build_script.bat", "w")
+            f.write(response.text)
+            f.close()
+            sg.popup("Done")
+        else:
+            sg.popup("Web site does not exist or is not reachable")
+
+    else:
+        break
+    
 window.close()
